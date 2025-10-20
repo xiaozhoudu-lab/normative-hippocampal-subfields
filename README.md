@@ -1,113 +1,150 @@
-# normative-hippocampal-subfields
-Charting hippocampal subfield normative modeling and its clinical applications
+# Charting hippocampal subfield normative modeling and its clinical applications
 
 ## Table of contents
 
 1. [Introduction](#Introduction)
 2. [Datasets](#Datasets)
-   2.1. Example dataset for the normative reference estimation (#Dataset-norms)
-   2.2. Example disease dataset for the normative reference application (#Dataset-diseases)
-   2.3. Example individual data for the personalized application of normative reference (#Dataset-individual)
-   2.4. Example new dataset for the site-calibration of normative reference (#Dataset-new)
-   2.5. Supplementary/Extended datasets for a better interpretation of the normative reference application (#Dataset-extended)
-3. [Normative models and DPS models](#Models)
-   3.1 Normative models by GAMLSS based on hippocampal subfields (#GAMLSS)
-   3.2 Disease-specific classification models for DPS estimation (#DPS)
+3. [Models](#Models)
 4. [Scripts](#Scripts)
-   4.1 Required R packages and installation (#Check-and-install-packages.R)
-   4.2 Normative curve estimate and milestone determination (#Normative-model-fit.R)
-   4.3 Bootstrap analysis of the estimated normative curves (#Bootstrap-normative-mdoel-fit.R)
-   4.4 Apply normative model to disease datasets (#Disease-application-normative-model.R)
-   4.5 Apply normative model to an individual case (#Individual-application-normative-model.R)
-   4.6 Calibrate normative model by new dataset (#Calibration-normative-model-using-new-dataset.R)
-   4.7 Statistical analyses of deviation score across diseases (#Stastical-analysis-deviations-across-diseases.R)
-   4.8 Other clinical task related scripts (#ROC&DPS.R; #cognitive-score-prediciton.R; #DBS.R; #HC&MCI-risk-stratificaiton.R; #MS-Prognosis-risk-stratificaiton.R; #associations_centile_scores_cognition.R)
+   4.1 [Required R packages and installation](#Check-and-install-packages.R)
+   4.2 [Normative curve estimation and peak age determination](#Normative-model-fit.R)
+   4.3 [Bootstrap analysis of normative curves](#Bootstrap-normative-mdoel-fit.R)
+   4.4 [ICV adjustment and model comparison](#ICV.R)
+   4.5 [Model calibration using new datasets](#Calibration-normative-model-using-new-dataset.R)
+   4.6 [Applying normative models to disease datasets](#Disease-application-normative-model.R)
+   4.7 [Applying normative models to individual-level data](#Individual-application-normative-model.R)
+   4.8 [Statistical analyses of deviation scores across diseases](#Stastical-analysis-deviations-across-diseases.R)
+   4.9 [Clinical downstream tasks](#Clinical-tasks)
 5. [License](#License)
 
 ---
 
 ## 1. Introduction
 
-This repository contains codes for hippocampal subfield normative reference construction and their downstream clinical applications. The example datasets could be found in file **“Datasets”**; the normative models (references) could be found in file **“Models”**; the main scripts could be found in file **“Scripts”**; the test outputs by the main scripts using example datasets are provided in file **“Test_results”**.
+This repository provides scripts for constructing **hippocampal subfield normative models** using *Generalized Additive Models for Location, Scale and Shape (GAMLSS)* and for applying these models to diverse clinical tasks, including disease classification, cognitive prediction, and prognosis stratification.
 
-Please note that some source functions (#Source-codes) are adapted from:
-Bethlehem, R.A.I., Seidlitz, J., White, S.R. et al. Brain charts for the human lifespan. *Nature* 604, 525–533 (2022). [https://doi.org/10.1038/s41586-022-04554-y](https://doi.org/10.1038/s41586-022-04554-y).
+The repository includes:
 
-This repository does not contain the original datasets. We do not have permission to distribute them. Researchers interested in accessing the full datasets should contact the authors directly.
+* **Example datasets** for normative model fitting, calibration, and validation.
+* **Trained normative models (RDS files)** that can be requested from the authors.
+* **Scripts** for each stage of the analytical workflow.
+* **Example outputs** for reference and validation.
 
 ---
 
 ## 2. Datasets
 
-Example datasets for normative curve fitting, application, and calibration are provided for demonstration purposes only. They are intended for script testing and validation, not for research or clinical applications. For multicenter datasets used in published studies, please contact the corresponding authors for data sharing permissions.
+Example datasets are provided solely for demonstration and code testing purposes.
+They include small synthetic samples that mimic the format of the original datasets.
+These examples are **not suitable for scientific analyses**.
+
+The full multi-center datasets used in published studies cannot be shared publicly due to data-use restrictions.
+Researchers interested in collaboration or access to the trained normative models should contact the authors directly via email.
 
 ---
 
 ## 3. Models
 
-While we cannot share the individual-level data, we provide the outcome models (normative references and classification models).
+The pre-trained **GAMLSS-based normative models** for hippocampal subfield volumes are available as `.rds` files.
+These models can be applied to new subjects or cohorts to derive age-, sex-, and site-adjusted deviation scores (Z-scores and centiles).
 
-* **#GAMLSS** contains normative models fitted on hippocampal subfield volumes.
-* **#DPS** contains disease-specific classification models for disease propensity score (DPS) estimation.
+> 🔹 **Note:**
+> The complete RDS model files are not included in this repository due to data-sharing policies.
+> Researchers can request access by contacting the corresponding author via email.
 
 ---
 
 ## 4. Scripts
 
-We have provided the main scripts for normative reference development and clinical applications.
+The repository contains a complete, modular workflow for normative modeling and clinical applications.
 
 ### 4.1 Required R packages and installation
 
-**Check-and-install-packages.R**: Automatically checks and installs the required R packages for model fitting, application, and plotting.
+**`Check-and-install-packages.R`**
+Automatically checks and installs all necessary R packages required for modeling, application, and visualization.
 
-### 4.2 Normative curve estimate and milestone determination
+---
 
-**Normative-model-fit.R**: Fits normative models, estimates peak ages, and generates normative growth curves.
+### 4.2 Normative curve estimation and peak age determination
+
+**`Normative-model-fit.R`**
+Fits normative lifespan models using GAMLSS based on hippocampal subfield volumes, estimates peak ages, and generates normative trajectories.
+
+---
 
 ### 4.3 Bootstrap analysis of normative curves
 
-**Bootstrap-normative-mdoel-fit.R**: Performs bootstrap analyses of normative curves and peak ages (default 1000 iterations).
+**`Bootstrap-normative-mdoel-fit.R`**
+Performs bootstrap resampling (default 1,000 iterations) to estimate confidence intervals for normative trajectories and peak ages.
 
-### 4.4 Apply normative model to disease datasets
+---
 
-**Disease-application-normative-model.R**: Applies normative models to disease datasets to calculate deviation scores.
+### 4.4 ICV adjustment and model comparison
 
-### 4.5 Apply normative model to an individual case
+**`ICV.R`**
+Implements intracranial volume (ICV)–adjusted normative models and evaluates consistency between adjusted and non-adjusted trajectories using the concordance correlation coefficient (CCC).
 
-**Individual-application-normative-model.R**: Applies normative models to an individual dataset for personalized deviation scoring.
+---
 
-### 4.6 Calibrate normative model by new dataset
+### 4.5 Model calibration using new datasets
 
-**Calibration-normative-model-using-new-dataset.R**: Calibrates normative models using new control datasets to account for site/scanner variability.
+**`Calibration-normative-model-using-new-dataset.R`**
+Applies a recalibration procedure to adapt pre-trained normative models to new sites or scanners using control subjects.
 
-### 4.7 Statistical analyses of deviation scores across diseases
+---
 
-**Stastical-analysis-deviations-across-diseases.R**: Performs group-level statistical comparisons of deviation scores across diseases.
+### 4.6 Applying normative models to disease datasets
 
-4.8 Other clinical task related scripts
+**`Disease-application-normative-model.R`**
+Applies the trained normative models to multi-disease datasets to compute deviation scores (Z-scores and centiles) for each patient across all hippocampal subfields.
 
-ROC&DPS.R: Performs receiver operating characteristic (ROC) analysis and estimates disease propensity scores (DPS) based on deviation profiles.
+---
 
-cognitive-score-prediciton.R: Predicts cognitive test scores from normative deviation or centile scores using regression models.
+### 4.7 Applying normative models to individual-level data
 
-DBS.R: Builds a support vector machine (SVM) model to classify DBS treatment outcomes (effective vs. ineffective) and evaluates classification performance using ROC curves and AUC.
+**`Individual-application-normative-model.R`**
+Computes deviation scores for a single individual or small cohort based on pre-trained normative models, enabling personalized brain health assessments.
 
-HC&MCI-risk-stratificaiton.R: Implements longitudinal risk stratification models to predict whether healthy controls (HC) will convert to mild cognitive impairment (MCI), and whether MCI cases will further progress to Alzheimer’s disease (AD).
+---
 
-MS-Prognosis-risk-stratificaiton.R: Conducts prognosis risk stratification for multiple sclerosis patients, focusing on predicting long-term disease progression.
+### 4.8 Statistical analyses of deviation scores across diseases
 
-associations_centile_scores_cognition.R: Examines the associations between hippocampal centile scores and cognitive performance across multiple domains.---
+**`Stastical-analysis-deviations-across-diseases.R`**
+Performs Monte Carlo permutation tests for group-level comparisons between diseases and matched controls, estimating p-values and effect sizes (Cohen’s d) with FDR correction.
+
+---
+
+### 4.9 Clinical downstream tasks
+
+**`ROC&DPS.R`**
+Performs ROC analyses and computes disease propensity scores (DPS) using SVM-based classification of deviation profiles.
+
+**`associations_centile_scores_cognition.R`**
+Examines correlations between hippocampal centile scores and cognitive measures (partial Spearman correlation, FDR-corrected).
+
+**`cognitive-score-prediciton.R`**
+Uses multivariate SVR (RBF kernel) to predict cognitive performance from centile scores.
+
+**`HC&MCI-risk-stratificaiton.R`**
+Conducts longitudinal survival analysis to predict conversion from healthy control (HC) to mild cognitive impairment (MCI), and from MCI to Alzheimer’s disease (AD).
+
+**`MS-Prognosis-risk-stratificaiton.R`**
+Builds prognostic models for multiple sclerosis (MS) progression using LASSO–Cox regression and Kaplan–Meier survival analysis.
+
+**`DBS.R`**
+Implements an SVM classifier to identify responders vs. non-responders to deep brain stimulation (DBS) treatment in Parkinson’s disease.
+
+---
 
 ## 5. License
 
-MIT License
+**MIT License**
 
-Copyright (c) [2025] [Version V1.0]
+Copyright (c) 2025
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 
 The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-
 

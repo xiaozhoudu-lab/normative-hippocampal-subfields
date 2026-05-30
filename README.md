@@ -26,7 +26,7 @@ This repository provides scripts for constructing **hippocampal subfield normati
 The repository includes:
 
 * **Example datasets** for normative model fitting, calibration, and validation.
-* **Trained normative models (RDS files)** that can be requested from the authors.
+* **Public normative reference packages** for hippocampal subfield centile/Z-score calculation.
 * **Scripts** for each stage of the analytical workflow.
 * **Example outputs** for reference and validation.
 
@@ -45,12 +45,15 @@ Researchers interested in collaboration or access to the trained normative model
 
 ## 3. Models
 
-The pre-trained **GAMLSS-based normative models** for hippocampal subfield volumes are available as `.rds` files.
-These models can be applied to new subjects or cohorts to derive age-, sex-, and site-adjusted deviation scores (Z-scores and centiles).
+The public hippocampal subfield normative references are provided as release packages rather than raw `.rds` model objects. Please see the following two compressed packages:
 
-> 🔹 **Note:**
-> The complete RDS model files are not included in this repository due to data-sharing policies.
-> Researchers can request access by contacting the corresponding author via email.
+* `Hippo_Subfields_Normative_PublicRelease.zip`: public normative reference based on the original hippocampal subfield volume models.
+* `Hippo_Subfields_Normative_PublicRelease_Age4_85_ICV.zip`: public normative reference based on the age 4-85 ICV-adjusted hippocampal subfield models.
+
+Each package contains a dense age- and sex-specific centile grid, a curve atlas, an example input file, and an R helper script for calculating centiles and Z-scores in new data.
+
+> **Note:**
+> The complete internal RDS model files are not included in this repository because they may contain fitted-model internals and subject-level information. The public release packages preserve practical normative scoring ability while excluding individual-level data, site labels, identifiers, and explicit sample-size fields.
 
 ---
 
